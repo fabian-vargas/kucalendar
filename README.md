@@ -10,28 +10,16 @@ Fácil, rápido y en español
 (Or should I say fast and easy?)
 
 ---
-Bienvenidos a KumbiaPHP Framework  Versión 1.0
+##kucalendar
+Calendario organizador de eventos hecho con el Framework KumbiaPHP Versión 1.0
+*el script sql se encuentra en la carpeta default/app/config/sqlquery
 
-Manual en construcción de la 1.0:
 
-Español : https://github.com/KumbiaPHP/Documentation/tree/master/es
-
-English : https://github.com/KumbiaPHP/Documentation/tree/master/en
-
-Ayúdanos a traducir el manual al inglés https://crowdin.com/project/kumbiaphp-doc
-
-## Slack KumbiaPHP Channel in spanish and english
-http://slack.kumbiaphp.com (new)
 
 
 ##Change Log
 * Requiere PHP 5.4 como mínimo, recomendado usar PHP 5.6, 7.0 o 7.1
 
-* CRUD: http://wiki.kumbiaphp.com/V1.0_CRUD_en_KumbiaPHP_Framework
-* API para usuarios de la beta2: http://www.kumbiaphp.com/api/beta2/
-* API para los desarrolladores del core: http://www.kumbiaphp.com/api/beta2-dev/
- 
-Seguimos trabajando para actualizar bien el phpdoc y API.
 
 
 Comunidad
