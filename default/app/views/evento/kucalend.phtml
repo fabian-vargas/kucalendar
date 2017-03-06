@@ -1,0 +1,133 @@
+    
+  <?php View::content()?>
+
+
+<div class="col-12">
+    <?= Html::linkAction(".", 'Listado', 'class="btn btn-default"')?>
+</div>
+
+</br>
+     <h3>|<?= ucwords("$model"),"|<small> <span>$action_name</span> </small>" ?><?php echo DwUtils::mesnombre(date("n")-1)?></h3>
+    
+  <?php
+
+  
+  
+/**
+*
+Orientado a objetos:
+$fecha = new DateTime();
+$fecha->modify('last day of this month');
+echo $fecha->format('d');
+*/
+  $month=3;  
+  $year=2017;
+  echo "<h3>";
+  echo DwUtils::mesnombre(date("$month")-1);
+  echo "</h3>";
+  $dias = array("domingo","lunes","martes","miercoles","jueves","viernes","sabado");
+  
+       $week = 1;
+       for($i=1;$i<=date("d",(mktime(0,0,0,$month+1,1,$year)-1));$i++) {
+          #date("d",(mktime(0,0,0,$month+1,1,$year)-1))
+          #devuelve el ultimo dia del mes.
+            $day_week = date('w', strtotime(date("$year-$month").'-'.$i));
+          # date('w', strtotime(date("$year-$month").'-'.$i)
+          # devuelve el dia de la semana
+            $calendar[$week][$day_week] = $i;
+          # dia del mes en el calendario
+          if ($day_week == 6) { $week++; };
+          # 7 dia fin de semana
+        }
+  /*     for($i=1;$i<=date('t');$i++) {
+
+            $day_week = date('w', strtotime(date('Y-m').'-'.$i));
+            $calendar[$week][$day_week] = $i;
+            if ($day_week == 6) { $week++; };
+        }
+        */
+    ?>
+
+          <!--<table border="1"> -->
+            <table border="1">
+            
+            <thead>
+
+               <tr>
+
+                    <td>Domingo</td>   
+                    <td>Lunes</td>
+                    <td>Martes</td>   
+                    <td>Miercoles</td>   
+                    <td>Jueves</td>   
+                    <td>Viernes</td>   
+                    <td class="hero">Sabado</td>   
+
+                    
+
+                </tr>
+            </thead>
+            <tbody>
+     
+           
+
+
+  <?php foreach ($calendar as $days) : ?>
+                             
+      <div> 
+        <tr>
+          <?php for ($i=0;$i<=6;$i++) : ?>
+            <td>
+            <?php
+            if (isset($days[$i])) { //isset deprecate php 7
+                     //$FechaHoy=date("j");
+                      /**
+                      *SI hay eventos HOY  */
+                      //Flash::info(date("$year-$month-0$days[$i]"));
+                      //Flash::info(date("$year-$month-$days[$i]"));
+                      //Flash::info(date("Y-n-j"));
+                      
+                      if(date("$year-$month-$days[$i]")==date("Y-n-j")){
+                      //if ($days[ $i ] == $FechaHoy) {
+                        echo"<div><h3><b>HOY</b></h3></div>";
+                      }
+            }
+            /**
+            recorro objeto data
+            */
+            if(isset($days[$i])) { //chequea si es una fecha válida *isset deprecate php 7
+            foreach ($data as $item) : 
+              $date=date_create($item->fecha);
+              $value=date_format($date,"Y-m-j");
+  
+              
+                if (date("Y-m-$days[$i]") == $value) { //si la fecha es igual a la fecha del evento
+                  echo "</br>";
+                  echo Html::linkAction("editar/$item->id", "- $item->eventonombre <br> $item->hora_inicio - $item->hora_fin", 'title="Editar" class="btn btn-primary"');
+                  echo "</br>";
+                  
+                } 
+                
+            endforeach ;     
+                  
+                  if ($days[$i] < 10){ $fechac=date("Y-m-0$days[$i]");} //modifica formato de fecha dia  1 a 01 
+                  else{$fechac=date("Y-m-$days[$i]");}   
+                  echo Html::linkAction("crear/$fechac","Crear|",'title="Crear"');
+                  echo Html::linkAction("cambiarfecha/$fechac", "Cambiar", 'title="Editar"');
+            } 
+            
+           ?>   
+               
+              <?php // echo isset($days[$i]) ? $atrib : ''; ?>
+              <?php  echo  isset($days[$i]) ? "</br>Dia <b>".$days[$i]."</b>" : ''; //isset deprecate php 7?>
+              <?php  //echo isset($days[$i]) ? $atribclose : ''; ?>
+              </td>
+              <?php endfor; ?>
+            </tr>
+          </div>         
+  <?php endforeach ;?>
+
+</tbody>
+</table>
+
+

@@ -1,0 +1,113 @@
+    
+  <?php View::content()?>
+</br>
+     <h3>|<?= ucwords("$model"),"|<small> <span>$action_name</span> </small>" ?><?php echo DwUtils::mesnombre(date("n")-1)?></h3>
+    
+  <?php
+  $dias = array("domingo","lunes","martes","miercoles","jueves","viernes","sabado");
+        $week = 1;
+       for($i=1;$i<=date('t');$i++) {
+
+            $day_week = date('w', strtotime(date('Y-m').'-'.$i));
+            $calendar[$week][$day_week] = $i;
+            if ($day_week == 6) { $week++; };
+        }
+    ?>
+
+          <!--<table border="1"> -->
+            <table border="1">
+            
+            <thead>
+
+               <tr>
+
+                    <td class="w3-light-grey">Domingo</td>   
+
+                    <td class="w3-blue">Lunes</td>
+
+                    <td class="w3-blue">Martes</td>   
+                    <td class="w3-blue">Miercoles</td>   
+
+                    <td class="w3-blue">Jueves</td>   
+
+                    <td class="w3-blue">Viernes</td>   
+
+                    <td class="w3-red">Sabado</td>   
+
+                    
+
+                </tr>
+            </thead>
+            <tbody>
+     
+           
+
+
+  <?php foreach ($calendar as $days) : ?>
+                             
+      <div> 
+        <tr>
+          <?php for ($i=0;$i<=6;$i++) : ?>
+            <td>
+            <?php
+            if (isset($days[$i])) {
+                    $FechaHoy=date("j");
+                      /**
+                      *SI hay eventos HOY  */
+                      if ($days[ $i ] == $FechaHoy) {
+                        echo"<div><h3><b>HOY</b></h3></div>";
+                        echo "<div><p style=\"font-size:13px;\">";
+                      }
+            }
+            /**
+            recorro objeto data
+            */
+            foreach ($data as $item) : 
+              $date=date_create($item->fecha);
+              $value=date_format($date,"Y-m-j");
+              if ($i>0){
+                if (date("Y-m-$days[$i]") == $value) {
+                  $key_upd = DwSecurity::getKey($item->id, 'upd_'.$model);
+                  $fechalink=date_format($date,'Y-m-j');
+                  echo Html::linkAction("turnoxfecha/$fechalink", '', 'title="Editar" class="btn btn-info glyphicon glyphicon-edit w3-hover-blue"');
+                  echo Html::linkAction("editar/$key_upd", "$item->evento", 'title="Editar" class="btn btn-block"');
+                } 
+              }    
+            endforeach ;
+            if (!isset($item->evento)) { 
+                //Flash::info($i);
+                Html::linkAction("crear/$fechac","",'title="Crear" class="btn btn-warning glyphicon glyphicon-plus-sign w3-hover-light-yellow"');
+                $identi="S/DATOS";
+                $ar2 = array('A'=>'S/DATO');
+                $fechat=$dias[$i];
+                $fechat.=' <br> '.date("$days[$i]/m/Y");
+                foreach ($data as $item) : 
+                 $date=date_create($item->fecha);
+                 $value=date_format($date,"Y-m-j");
+                 if (date("Y-m-$days[$i]") == $value) {
+                    $key_upd = DwSecurity::getKey($item->id, 'upd_'.$model);
+                    echo Html::linkAction("turnoxfecha/$item->fecha", '', 'title="Editar" class="btn btn-info glyphicon glyphicon-edit w3-hover-blue"');
+                    echo Html::linkAction("editar/$key_upd", "$item->evento", 'title="Editar" class="btn btn-block"');
+                 }  
+                endforeach ;
+                if (!isset($item->evento)) { echo "S/DATO";}
+                if ($days[$i] < 10){ $fechac=date("Y-m-0$days[$i]");}
+                else{$fechac=date("Y-m-$days[$i]");}
+                echo Html::linkAction("crear/$fechac","",'title="Crear" class="btn btn-warning glyphicon glyphicon-plus-sign w3-hover-light-yellow"');
+            }
+          
+              ?>   
+               
+              <?php echo isset($days[$i]) ? $atrib : ''; ?>
+              <?php echo isset($days[$i]) ? $days[$i] : ''; ?>
+              <?php echo isset($days[$i]) ? $atribclose : ''; ?>
+              </td>
+              <?php endfor; ?>
+            </tr>
+          </div>         
+  <?php endforeach ;?>
+
+</tbody>
+</table>
+
+
